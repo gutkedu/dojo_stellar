@@ -1,3 +1,4 @@
+import { IntegrationError } from '@/use-cases/errors/integration-error'
 import { NodeProvider } from './node-provider'
 import { Horizon } from '@stellar/stellar-sdk'
 
@@ -19,7 +20,7 @@ export class StellarNodeProvider implements NodeProvider {
       return transaction
     } catch (error) {
       console.error(`Error fetching transaction: ${error}`)
-      throw new Error(`Error fetching transaction: ${error}`)
+      throw new IntegrationError(`Error fetching transaction: ${error}`)
     }
   }
 
@@ -29,7 +30,7 @@ export class StellarNodeProvider implements NodeProvider {
       return account
     } catch (error) {
       console.error(`Error fetching balance: ${error}`)
-      throw new Error(`Error fetching balance: ${error}`)
+      throw new IntegrationError(`Error fetching balance: ${error}`)
     }
   }
 
@@ -39,7 +40,7 @@ export class StellarNodeProvider implements NodeProvider {
       return block
     } catch (error) {
       console.error(`Error fetching block: ${error}`)
-      throw new Error(`Error fetching block: ${error}`)
+      throw new IntegrationError(`Error fetching block: ${error}`)
     }
   }
 }
