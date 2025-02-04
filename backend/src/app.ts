@@ -24,8 +24,7 @@ app.setErrorHandler((error, _request, reply) => {
   }
 
   if (error.statusCode === 429) {
-    reply.code(429)
-    error.message = 'You hit the rate limit! Slow down please!'
+    return reply.status(429).send({ message: 'Too many requests.' })
   }
 
   if (error instanceof IntegrationError) {
