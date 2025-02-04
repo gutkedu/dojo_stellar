@@ -1,9 +1,9 @@
 import fastify from 'fastify'
 import { ZodError } from 'zod'
 import { routes } from './http/controllers/routes'
-
 import { fastifyRateLimit } from '@fastify/rate-limit'
 import { IntegrationError } from './use-cases/errors/integration-error'
+import { fastifyCors } from '@fastify/cors'
 
 export const app = fastify()
 
@@ -11,6 +11,8 @@ app.register(fastifyRateLimit, {
   max: 100,
   timeWindow: '1 minute',
 })
+
+app.register(fastifyCors, {})
 
 app.register(routes)
 
