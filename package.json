@@ -1,5 +1,0 @@
-{
-  "dependencies": {
-    "@fastify/cors": "^10.0.2"
-  }
-}
