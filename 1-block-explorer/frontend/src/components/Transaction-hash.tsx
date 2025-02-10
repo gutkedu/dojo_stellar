@@ -1,26 +1,27 @@
 import { useState } from "react";
 import axios from "axios";
-import { BalanceResponse } from "../types/balance";
+import { TransactionResponse } from "../types/transaction";
 
-//http:localhost:3333/balance/GCXR3UI33MVQGUMYAQLZXGY2YYDOS33UXPIBGDSUOAMQNZ5EAS4D5OFY
+//http:localhost:3333/transaction/406fb73fdf904ba9e4f408b60cf324026017c8daaa8c9e02333a6fa720e0feb2
 
-export function BalanceSearch() {
+export function TransactionHash() {
   const [accountId, setAccountId] = useState("");
-  const [balanceData, setBalanceData] = useState<BalanceResponse | null>(null);
+  const [transactionData, setTransactionData] =
+    useState<TransactionResponse | null>(null);
   const [error, setError] = useState("");
 
   const fetchBalance = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3333/balance/${accountId}`
+        `http://localhost:3333/transaction/${accountId}`
       );
-      console.log(response);
-      setBalanceData(response.data.balance);
+
+      setTransactionData(response.data.transaction);
       setError("");
     } catch (err) {
       setError("Conta não encontrada!");
       console.error(err);
-      setBalanceData(null);
+      setTransactionData(null);
     }
   };
 
@@ -29,13 +30,13 @@ export function BalanceSearch() {
       className="flex flex-col justify-start
    bg-gray-800 text-red-500 w-full h-screen items-center gap-6 p-10 pr-6 "
     >
-      <h2 className="text-2xl">Buscar Saldo</h2>
+      <h2 className="text-2xl">Buscar Transação</h2>
       <input
         className="solid border-2 border-gray-500 rounded-md"
         type="text"
         value={accountId}
         onChange={(e) => setAccountId(e.target.value)}
-        placeholder="Conta"
+        placeholder="Hash da Transação"
       />
       <button
         className="bg-slate-700 px-3 py-2 rounded-xl cursor-pointer"
@@ -45,22 +46,11 @@ export function BalanceSearch() {
       </button>
       <div className="w-screen px-6">
         {error && <p>{error}</p>}
-        {balanceData && (
+        {transactionData && (
           <div className="items-center justify-center">
-            <h3>Account ID: {balanceData.account_id}</h3>
-            <h4>Balances:</h4>
-            <ul>
-              {balanceData.balances.map((balance, index) => (
-                <li key={index}>
-                  <p>Asset Type: {balance.asset_type}</p>
-                  {balance.asset_code && (
-                    <p>Asset Code: {balance.asset_code}</p>
-                  )}
-
-                  <p>Balance: {balance.balance}</p>
-                </li>
-              ))}
-            </ul>
+            <h6 className="text-sm">Account ID: {transactionData.id}</h6>
+            <h4>Hash: {transactionData.hash}</h4>
+            <h4>Created at: {transactionData.created_at}</h4>
           </div>
         )}
       </div>
