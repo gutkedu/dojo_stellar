@@ -1,2 +1,1 @@
 # dojo_stellar
-Explorer
